@@ -1,0 +1,16 @@
+This Arduino library allows easy interpretation of the Data/Clock pin values of a KY040 rotary encoder
+and translates them into practically usable CW and CCW turns.
+
+CCW turns are represented by an int value of -1, CW turns by 1, no movement by 0.
+
+One needs to hook up the data output of the KY040 to 2 CHANGE interrupt inputs on the Arduino,
+so the values can be processed with a high a guarantee that all state changes in the CLK / DT  values
+are indeed captured.
+
+This might under ideal circumstances also work with regular inputs (no interrupts), but the slightest
+delay in the Arduino code main loop will likely cause some data changes to be missed. Missing any
+values changes will turn into erretic behavior (misinterpretation of the turn direction, perceived
+as jitter back and forth).
+
+Ferrie J Bank,
+Amsterdam 21 February 2020
