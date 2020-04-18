@@ -1,9 +1,23 @@
 This Arduino library allows easy interpretation of the Data/Clock pin values of a KY040 rotary encoder
-and translates them into practically usable CW and CCW turns.
+and translates them into practically usable CW and CCW movement indicators.
 
-CCW turns are represented by an int value of -1, CW turns by 1, no movement by 0.
+A KY040 outputs Gray code, two out of phase block signals on the Clock and Data outputs.
+The CLK/DT outputs advance their signals pretty fast.
+Let's call 1 full rotation of the knob: a turn. Advancing the knob to the next indentation (where
+the physical turning resistance increases to hold the knob a bit tighter), could be called:
+a notch advance. Then the CLK and DT block signals flip state about 5x for each notch advance.
 
-One needs to hook up the data output of the KY040 to 2 CHANGE interrupt inputs on the Arduino,
+This can easily be monitored by hooking up the CLK/DT to LEDs and watching the blinking patterns
+as the knob is rotated. Examining this pattern, one can conclude that the Gray code output by
+the KY040 generally is stable and reliable, but interpreting it is a bit involved.
+
+CCW notch advances are represented by an int value of -1, CW turns by 1, no movement by 0.
+
+To translate the CLK/DT pulses into proper notch advances, a buffer is used to hold the changes
+internally until 5 subsequent advances in the same direction have been registered.
+This also takes away the problems of bouncing contacts during the turning of the knob.
+
+One needs to hook up the data outputs of the KY040 to 2 CHANGE interrupt inputs on the Arduino,
 so the values can be processed with a high a guarantee that all state changes in the CLK / DT  values
 are indeed captured.
 
