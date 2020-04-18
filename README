@@ -26,7 +26,7 @@ delay in the Arduino code main loop will likely cause some data changes to be mi
 values changes will turn into erretic behavior (misinterpretation of the turn direction, perceived
 as jitter back and forth).
 
-So, the two ways to succesfully interpret the KY040 output signals, relies on buffering the
+So, the way to succesfully interpret the KY040 output signals, relies on buffering the
 pulses enough to slow down the rate of data, while also guaranteeing in some way that no
 pulses are missed. This library will enable both.
 
